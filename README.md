@@ -1,5 +1,5 @@
-原版系统镜像平台
-项目介绍
+# 原版系统镜像平台
+## 项目介绍
 这是一个聚合各类开源镜像与原版资源的导航平台，整合了系统镜像、常用软件、开源镜像站、前端 CDN 资源、开发语言镜像源等各类开发常用资源，方便开发者快速查找和使用国内加速的镜像资源。
 文件说明
 文件
@@ -11,7 +11,7 @@ style.css
 script.js
 独立的脚本文件，包含交互功能（主题切换、搜索、平滑滚动等）
 README.md
-本说明文档
+## 本说明文档
 
 使用说明
 基本使用
@@ -31,28 +31,34 @@ README.md
 更换图标的方法
 图片图标（img 标签）
 如果要更换软件 / 系统的图片图标，修改 index.html 中对应的 <img> 标签即可：
+```
 <!-- 原来的图标 -->
 <img src="https://aka.doubaocdn.com/xxx" alt="Python" class="h-10 w-10 object-contain aspect-square">
-
+```
+```
 <!-- 更换后的图标 -->
 <img src="你的新图标地址" alt="Python" class="h-10 w-10 object-contain aspect-square">
-
+```
 注意：请保留 class 中的 h-10 w-10 object-contain aspect-square，这几个类是用来：
 h-10 w-10：固定图标大小为 40px40px（小图标是 h-8 w-8 对应 32px32px）
 object-contain：保证图标内容不会拉伸变形
 aspect-square：保证图标始终是正方形，不会变形
 SVG 图标
 如果要更换自定义的 SVG 图标，直接替换 <svg> 标签的内容即可，同样保留 class：
+
+```
 <!-- 原来的SVG图标 -->
 <svg class="h-10 w-10 object-contain aspect-square text-green-500" fill="currentColor" viewBox="0 0 24 24">
     <!-- 原来的path内容 -->
 </svg>
+```
 
+```
 <!-- 更换后的SVG图标 -->
 <svg class="h-10 w-10 object-contain aspect-square text-green-500" fill="currentColor" viewBox="0 0 24 24">
     <!-- 你的新SVG的path内容 -->
 </svg>
-
+```
 图标大小调整
 如果需要调整图标大小，只需要修改 class 中的 h-* w-* 即可：
 h-8 w-8：32px*32px（用于小图标，比如导航、板块标题的图标）
