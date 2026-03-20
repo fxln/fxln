@@ -1,0 +1,677 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原版系统镜像平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        neutral: '#86909C',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+    <!-- 导航栏 -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <svg class="h-8 w-8 object-contain aspect-square text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold">原版系统镜像平台</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- 搜索框 -->
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="搜索镜像站或资源..." class="w-64 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                        <svg class="absolute right-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <!-- 主题切换 -->
+                    <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg id="sunIcon" class="h-6 w-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moonIcon" class="h-6 w-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="bg-gradient-to-r from-primary/90 to-secondary/90 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">一站式原版系统与软件镜像平台</h1>
+            <p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
+                聚合国内主流开源镜像站、教育网镜像源、Windows原版镜像站，为开发者提供快速、稳定的资源访问入口
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <div class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">
+                    <span class="font-medium">50+ 镜像站点</span>
+                </div>
+                <div class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">
+                    <span class="font-medium">全系列系统版本</span>
+                </div>
+                <div class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">
+                    <span class="font-medium">常用开发源汇总</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 快速导航 -->
+    <section class="py-8 bg-white dark:bg-gray-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#systems" class="px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">系统镜像</a>
+                <a href="#software" class="px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">常用软件</a>
+                <a href="#mirrors" class="px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">镜像站点</a>
+                <a href="#cdn" class="px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">CDN资源</a>
+                <a href="#sources" class="px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">开发源</a>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- 系统镜像板块 -->
+        <section id="systems" class="mb-16 search-section">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <svg class="h-8 w-8 object-contain aspect-square mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                系统镜像
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Linux 系统 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img src="https://aka.doubaocdn.com/BAUV1w5xzb" alt="Ubuntu" class="h-10 w-10 object-contain aspect-square rounded-full border-2 border-white dark:border-gray-800">
+                            <img src="https://aka.doubaocdn.com/lUnl1w5xzf" alt="CentOS" class="h-10 w-10 object-contain aspect-square rounded-full border-2 border-white dark:border-gray-800">
+                            <img src="https://aka.doubaocdn.com/C1oj1w5y08" alt="Debian" class="h-10 w-10 object-contain aspect-square rounded-full border-2 border-white dark:border-gray-800">
+                        </div>
+                        <h3 class="ml-3 text-xl font-semibold">Linux 发行版</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        支持 Ubuntu、Ubuntu Server、Debian、CentOS 等全系列历史版本
+                    </p>
+                    <div class="space-y-2">
+                        <a href="https://mirrors.aliyun.com" target="_blank" class="block text-primary hover:underline">阿里云镜像站</a>
+                        <a href="https://mirrors.tuna.tsinghua.edu.cn" target="_blank" class="block text-primary hover:underline">清华大学镜像站</a>
+                        <a href="https://mirrors.ustc.edu.cn" target="_blank" class="block text-primary hover:underline">中国科学技术大学镜像站</a>
+                    </div>
+                </div>
+
+                <!-- Windows 系统 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://aka.doubaocdn.com/3ylf1w5xzj" alt="Windows" class="h-10 w-10 object-contain aspect-square rounded-full">
+                        <h3 class="ml-3 text-xl font-semibold">Windows 原版镜像</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        包含 Windows 7/8/10/11、Windows Server 2002-2025 所有历史原版镜像
+                    </p>
+                    <div class="space-y-2">
+                        <a href="https://next.itellyou.cn" target="_blank" class="block text-primary hover:underline">MSDN 我告诉你</a>
+                        <a href="https://uupdump.cn" target="_blank" class="block text-primary hover:underline">UUP dump 中文镜像站</a>
+                        <a href="https://www.hellowindows.cn" target="_blank" class="block text-primary hover:underline">HelloWindows</a>
+                        <a href="https://massgrave.dev/genuine-installation-media" target="_blank" class="block text-primary hover:underline">MAS 激活脚本</a>
+                    </div>
+                </div>
+
+                <!-- 安卓系统 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-10 w-10 object-contain aspect-square text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9993s.4482-.9993.9993-.9993c.5511 0 .9993.4486.9993.9993s-.4482.9993-.9993.9993m-11.0461 0c-.5511 0-.9993-.4486-.9993-.9993s.4482-.9993.9993-.9993c.5511 0 .9993.4486.9993.9993s-.4482.9993-.9993.9993m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0533 3.5573C15.5913 8.2439 13.8531 7.8508 12 7.8508s-3.5913.3931-5.1058 1.1532L4.8409 5.4467a.416.416 0 00-.5676-.1521.416.416 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.689-7.5743-6.1183-9.4396"/>
+                        </svg>
+                        <h3 class="ml-3 text-xl font-semibold">安卓系统</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        原生安卓系统镜像、厂商原厂固件，支持全系列设备版本
+                    </p>
+                    <div class="space-y-2">
+                        <a href="https://mirrors.tuna.tsinghua.edu.cn" target="_blank" class="block text-primary hover:underline">清华大学 AOSP 镜像</a>
+                        <a href="https://mirrors.aliyun.com" target="_blank" class="block text-primary hover:underline">阿里云安卓镜像</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 常用软件板块 -->
+        <section id="software" class="mb-16 search-section">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <svg class="h-8 w-8 object-contain aspect-square mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                常用软件
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- 软件卡片 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/VfYU1w5xzm" alt="Office" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">Microsoft Office</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/I8hH1w5y0I" alt="MySQL" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">MySQL</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/youJ1w5y0M" alt="PostgreSQL" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">PostgreSQL</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/vFUX1w5y0P" alt="Nginx" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">Nginx</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/KfeU1w5xzq" alt="Docker" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">Docker</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/aLoA1w5xzt" alt="Python" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">Python</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/9syI1w5y0F" alt="Java" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">Java</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <img src="https://aka.doubaocdn.com/HzHY1w5y0B" alt="Node.js" class="h-10 w-10 object-contain aspect-square">
+                    <span class="ml-3 font-medium">Node.js</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <svg class="h-10 w-10 object-contain aspect-square text-indigo-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    <span class="ml-3 font-medium">PHP</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <svg class="h-10 w-10 object-contain aspect-square text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/>
+                    </svg>
+                    <span class="ml-3 font-medium">Redis</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <svg class="h-10 w-10 object-contain aspect-square text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.002,2.008c-5.52,0-9.994,4.475-9.994,9.995c0,5.521,4.475,9.995,9.995,9.995s9.995-4.474,9.995-9.995 C21.997,6.483,17.522,2.008,12.002,2.008z M16.773,15.373c-0.096,0.239-0.337,0.491-0.643,0.631 c-0.305,0.14-0.664,0.179-0.99,0.103c-0.325-0.076-0.624-0.279-0.819-0.538l-2.09-2.787l-1.563,1.914 c-0.18,0.221-0.449,0.36-0.739,0.381c-0.29,0.021-0.578-0.063-0.805-0.231c-0.227-0.168-0.379-0.408-0.423-0.673 L8.33,11.393l-1.118,0.863c-0.21,0.162-0.476,0.239-0.741,0.213c-0.265-0.026-0.512-0.153-0.685-0.351 c-0.173-0.198-0.259-0.454-0.238-0.712c0.021-0.258,0.131-0.5,0.306-0.68l1.604-1.239c0.19-0.147,0.426-0.223,0.665-0.214 c0.239,0.009,0.467,0.102,0.64,0.259l1.598,1.398l1.993-2.611c0.18-0.236,0.453-0.389,0.752-0.418 c0.299-0.029,0.595,0.056,0.827,0.235c0.232,0.179,0.384,0.433,0.423,0.711l1.103,5.507L16.773,15.373z"/>
+                    </svg>
+                    <span class="ml-3 font-medium">Caddy</span>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center card-hover">
+                    <svg class="h-10 w-10 object-contain aspect-square text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span class="ml-3 font-medium">Maven</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 镜像站点汇总 -->
+        <section id="mirrors" class="mb-16 search-section">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <svg class="h-8 w-8 object-contain aspect-square mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+                开源镜像站汇总
+            </h2>
+
+            <!-- 企业镜像站点 -->
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-300">企业镜像站点</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="https://mirrors.aliyun.com" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">阿里巴巴 - 开源镜像站</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.aliyun.com</div>
+                    </a>
+                    <a href="https://mirrors.cloud.tencent.com" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">腾讯 - 软件源</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.cloud.tencent.com</div>
+                    </a>
+                    <a href="https://mirrors.huaweicloud.com" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">华为 - 开源镜像站</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.huaweicloud.com</div>
+                    </a>
+                    <a href="https://mirrors.163.com" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">网易 - 开源镜像站</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.163.com</div>
+                    </a>
+                    <a href="https://mirrors.sohu.com" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">搜狐 - 开源镜像站</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.sohu.com</div>
+                    </a>
+                    <a href="https://mirrors.cmecloud.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">移动云 - 开源镜像</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.cmecloud.cn</div>
+                    </a>
+                    <a href="https://mirrors.ctyun.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">天翼云 - 开源镜像站</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.ctyun.cn</div>
+                    </a>
+                    <a href="https://mirrors.yun-idc.com" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">首都在线 - 镜像站</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.yun-idc.com</div>
+                    </a>
+                    <a href="https://mirror.kaiyuanshe.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                        <div class="font-medium">开源社 - 开源镜像站点</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirror.kaiyuanshe.cn</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 教育镜像站点 -->
+            <div>
+                <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-300">教育镜像站点</h3>
+                
+                <!-- 西北地区 -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 text-gray-600 dark:text-gray-400">西北地区</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://mirror.lzu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">兰州大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirror.lzu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.xjtu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">西安交通大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.xjtu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.nwafu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">西北农林科技大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.nwafu.edu.cn</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 西南地区 -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 text-gray-600 dark:text-gray-400">西南地区</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://mirrors.cqu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">重庆大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.cqu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.cqupt.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">重庆邮电大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.cqupt.edu.cn</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 东北地区 -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 text-gray-600 dark:text-gray-400">东北地区</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://mirrors.hit.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">哈尔滨工业大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.hit.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.jlu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">吉林大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.jlu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.neusoft.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">大连东软信息学院</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.neusoft.edu.cn</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 华东地区 -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 text-gray-600 dark:text-gray-400">华东地区</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://mirrors.tuna.tsinghua.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">清华大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.tuna.tsinghua.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.bfsu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">北京外国语大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.bfsu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.pku.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">北京大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.pku.edu.cn</div>
+                        </a>
+                        <a href="https://mirror.bjtu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">北京交通大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirror.bjtu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.bupt.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">北京邮电大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.bupt.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.bit.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">北京理工大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.bit.edu.cn</div>
+                        </a>
+                        <a href="https://mirror.iscas.ac.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">中国科学院软件研究所</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirror.iscas.ac.cn</div>
+                        </a>
+                        <a href="https://mirrors.sdu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">山东大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.sdu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.qlu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">齐鲁工业大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.qlu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.sdwu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">山东女子学院</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.sdwu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.nju.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">南京大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.nju.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.njtech.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">南京工业大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.njtech.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.sjtug.sjtu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">上海交通大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.sjtug.sjtu.edu.cn</div>
+                        </a>
+                        <a href="https://mirror.sjtu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">上海交通大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirror.sjtu.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.shanghaitech.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">上海科技大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.shanghaitech.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.zju.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">浙江大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.zju.edu.cn</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 华中地区 -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 text-gray-600 dark:text-gray-400">华中地区</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://mirror.nyist.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">南阳理工学院</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirror.nyist.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.ustc.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">中国科学技术大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.ustc.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.wsyu.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">武昌首义学院</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.wsyu.edu.cn</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 华南地区 -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 text-gray-600 dark:text-gray-400">华南地区</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="https://mirrors.sustech.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">南方科技大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.sustech.edu.cn</div>
+                        </a>
+                        <a href="https://mirrors.scau.edu.cn" target="_blank" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 card-hover">
+                            <div class="font-medium">华南农业大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">https://mirrors.scau.edu.cn</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 前端CDN资源库 -->
+        <section id="cdn" class="mb-16 search-section">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <svg class="h-8 w-8 object-contain aspect-square mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                前端 CDN 公共资源库
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 经典CDN -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-4">经典 CDN</h3>
+                    <div class="space-y-3">
+                        <a href="https://www.jsdelivr.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">jsdelivr</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://www.jsdelivr.com</div>
+                        </a>
+                        <a href="https://unpkg.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">unpkg</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://unpkg.com</div>
+                        </a>
+                        <a href="https://cdnjs.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">cdnjs</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://cdnjs.com</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 国内加速CDN -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-4">国内加速 CDN</h3>
+                    <div class="space-y-3">
+                        <a href="https://staticfile.org" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">Staticfile CDN</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://staticfile.org</div>
+                        </a>
+                        <a href="https://lib.sinaapp.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">新浪云计算公共库</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://lib.sinaapp.com</div>
+                        </a>
+                        <a href="https://cdn.bytedance.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">字节跳动静态资源公共库</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://cdn.bytedance.com</div>
+                        </a>
+                        <a href="http://jscdn.upai.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">又拍云 JS 库 CDN 服务</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">http://jscdn.upai.com</div>
+                        </a>
+                        <a href="https://github.elemecdn.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">饿了么</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://github.elemecdn.com、https://npm.elemecdn.com</div>
+                        </a>
+                        <a href="https://unpkg.zhimg.com" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">知乎</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://unpkg.zhimg.com</div>
+                        </a>
+                        <a href="https://cdn.onmicrosoft.cn" target="_blank" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="font-medium">渺软公益</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">https://cdn.onmicrosoft.cn</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 开发语言镜像源 -->
+        <section id="sources" class="mb-16 search-section">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <svg class="h-8 w-8 object-contain aspect-square mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+                开发语言镜像源
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Python 镜像源 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://aka.doubaocdn.com/aLoA1w5xzt" alt="Python" class="h-8 w-8 object-contain aspect-square">
+                        <h3 class="ml-3 text-xl font-semibold">Python 镜像源</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">阿里云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.aliyun.com/pypi/simple</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">腾讯云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.cloud.tencent.com/pypi/simple</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">网易云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.163.com/pypi/simple</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">百度云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirror.baidu.com/pypi/simple</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">华为云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.huaweicloud.com/repository/pypi/simple</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">清华大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://pypi.mirrors.ustc.edu.cn/simple</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">中国科学技术大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.ustc.edu.cn/pypi/web/simple</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NPM 镜像源 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://aka.doubaocdn.com/HzHY1w5y0B" alt="NPM" class="h-8 w-8 object-contain aspect-square">
+                        <h3 class="ml-3 text-xl font-semibold">NPM 镜像源</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">腾讯云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.cloud.tencent.com/npm</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">阿里云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://registry.npmmirror.com</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">华为云</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://mirrors.huaweicloud.com/repository/npm</div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                            <div class="font-medium">中国科学技术大学</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 font-mono">https://npmreg.proxy.ustclug.org</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-gray-300 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>原版系统镜像平台 - 聚合国内优质镜像资源，为开发者提供便捷的资源访问入口</p>
+            <p class="mt-2 text-sm text-gray-400">所有资源均来自公开站点，本站仅做汇总展示，不存储任何资源</p>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // 检查本地存储的主题
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+
+        // 搜索功能
+        const searchInput = document.getElementById('searchInput');
+        const sections = document.querySelectorAll('.search-section');
+        
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (!query) {
+                // 显示所有内容
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                    const cards = section.querySelectorAll('a, .bg-gray-50');
+                    cards.forEach(card => {
+                        card.style.display = 'block';
+                    });
+                });
+                return;
+            }
+            
+            sections.forEach(section => {
+                let sectionHasMatch = false;
+                const cards = section.querySelectorAll('a, .bg-gray-50');
+                
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        card.style.display = 'block';
+                        sectionHasMatch = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // 如果该板块有匹配的内容，显示板块，否则隐藏
+                section.style.display = sectionHasMatch ? 'block' : 'none';
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
